@@ -1,0 +1,7 @@
+{
+  "threshold": 10,
+  "reporters": ["console", "badge"],
+  "absolute": true,
+  "gitignore": true,
+  "output": "./assets"
+}
