@@ -2,6 +2,7 @@
 // TODO: uncomment all commented lines
 import { /* DeleteItem, */ Item } from '@js-items/foundation';
 // import Facade from '@js-items/foundation/dist/Facade';
+// import Facade from '@js-items/foundation/dist/Facade';
 import _defaultTo from 'ramda/src/defaultTo';
 import FacadeConfig from './FacadeConfig';
 import FactoryConfig from './FactoryConfig';
@@ -14,6 +15,7 @@ import defaultCreateItem from './functions/createItem';
 // import defaultUpdateItem from './functions/updateItem';
 // import { Handler } from './types/handler';
 import defaultConvertItemToOptions from './utils/defaultConvertItemToOptions';
+import { emptyOptions } from './utils/emptyOptions';
 
 export default <I extends Item>({
   deleteItem,
@@ -25,10 +27,9 @@ export default <I extends Item>({
   createItem,
   convertItemIntoOptions,
   ...config
-}: // TODO: implement the missing method on @js-items/express and @js-items/ky
-FactoryConfig<
+}: FactoryConfig<
   I
->): any /* TODO: removed any and uncomment when implemented: Omit<Facade<I> , 'countItems'>*/ => {
+>): any /* uncomment when finished entirely:  Facade<I> */ => {
   const itemIntoOptions = _defaultTo(defaultConvertItemToOptions)(
     convertItemIntoOptions
   );
@@ -36,11 +37,11 @@ FactoryConfig<
   const facadeConfig: FacadeConfig<I> = {
     convertDocumentIntoItem: (document: any) => document,
     convertItemIntoOptions: itemIntoOptions,
-    createFilter: (filter: any) => filter,
+    createFilter: emptyOptions,
     createItemOptions: defaultConvertItemToOptions,
     createSort: (sort: any) => sort,
     defaultPaginationLimit: 10,
-    deleteItemOptions: itemIntoOptions,
+    deleteItemOptions: emptyOptions,
     deleteItemsOptions: itemIntoOptions,
     getItemOptions: itemIntoOptions,
     getItemsOptions: itemIntoOptions,
