@@ -39,5 +39,4 @@ export default interface FactoryConfig<I extends Item> {
     readonly createItemOptions?: ConvertItemIntoOptions<I>;
     readonly defaultPaginationLimit?: number;
     readonly itemName: string;
-    readonly service: Facade<I>;
 }

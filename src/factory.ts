@@ -1,19 +1,16 @@
 // tslint:disable:no-any
-// TODO: uncomment all commented lines
-import { /* DeleteItem, */ Item } from '@js-items/foundation';
-// import Facade from '@js-items/foundation/dist/Facade';
-// import Facade from '@js-items/foundation/dist/Facade';
+import { Item } from '@js-items/foundation';
+import Facade from '@js-items/foundation/dist/Facade';
 import _defaultTo from 'ramda/src/defaultTo';
 import FacadeConfig from './FacadeConfig';
 import FactoryConfig from './FactoryConfig';
 import defaultCreateItem from './functions/createItem';
-// import defaultDeleteItem from './functions/deleteItem';
-// import defaultDeleteItems from './functions/deleteItems';
-// import defaultGetItem from './functions/getItem';
-// import defaultGetItems from './functions/getItems';
-// import defaultReplaceItem from './functions/replaceItem';
-// import defaultUpdateItem from './functions/updateItem';
-// import { Handler } from './types/handler';
+import defaultDeleteItem from './functions/deleteItem';
+import defaultDeleteItems from './functions/deleteItems';
+import defaultGetItem from './functions/getItem';
+import defaultGetItems from './functions/getItems';
+import defaultReplaceItem from './functions/replaceItem';
+import defaultUpdateItem from './functions/updateItem';
 import defaultConvertItemToOptions from './utils/defaultConvertItemToOptions';
 import { emptyOptions } from './utils/emptyOptions';
 
@@ -27,9 +24,7 @@ export default <I extends Item>({
   createItem,
   convertItemIntoOptions,
   ...config
-}: FactoryConfig<
-  I
->): any /* uncomment when finished entirely:  Facade<I> */ => {
+}: FactoryConfig<I>): Facade<I> => {
   const itemIntoOptions = _defaultTo(defaultConvertItemToOptions)(
     convertItemIntoOptions
   );
@@ -51,22 +46,20 @@ export default <I extends Item>({
   };
 
   const createItemFactory = _defaultTo(defaultCreateItem)(createItem);
-  // const deleteItemFactory = _defaultTo(
-  //   defaultDeleteItem
-  // )(deleteItem);
-  // const getItemFactory = _defaultTo(defaultGetItem)(getItem);
-  // const updateItemFactory = _defaultTo(defaultUpdateItem)(updateItem);
-  // const replaceItemFactory = _defaultTo(defaultReplaceItem)(replaceItem);
-  // const deleteItemsFactory = _defaultTo(defaultDeleteItems)(deleteItems);
-  // const getItemsFactory = _defaultTo(defaultGetItems)(getItems);
+  const deleteItemFactory = _defaultTo(defaultDeleteItem)(deleteItem);
+  const getItemFactory = _defaultTo(defaultGetItem)(getItem);
+  const updateItemFactory = _defaultTo(defaultUpdateItem)(updateItem);
+  const replaceItemFactory = _defaultTo(defaultReplaceItem)(replaceItem);
+  const deleteItemsFactory = _defaultTo(defaultDeleteItems)(deleteItems);
+  const getItemsFactory = _defaultTo(defaultGetItems)(getItems);
 
   return {
     createItem: createItemFactory(facadeConfig),
-    // deleteItem: deleteItemFactory(facadeConfig),
-    // deleteItems: deleteItemsFactory(facadeConfig),
-    // getItem: getItemFactory(facadeConfig),
-    // getItems: getItemsFactory(facadeConfig),
-    // replaceItem: replaceItemFactory(facadeConfig),
-    // updateItem: updateItemFactory(facadeConfig),
+    deleteItem: deleteItemFactory(facadeConfig),
+    deleteItems: deleteItemsFactory(facadeConfig),
+    getItem: getItemFactory(facadeConfig),
+    getItems: getItemsFactory(facadeConfig),
+    replaceItem: replaceItemFactory(facadeConfig),
+    updateItem: updateItemFactory(facadeConfig),
   };
 };
