@@ -1,13 +1,12 @@
 // tslint:disable:no-any
-import { ConflictingItemError, CreateItem, Item } from '@js-items/foundation';
+import { CreateItem, Item } from '@js-items/foundation';
 import { Result } from '@js-items/foundation/dist/functions/GetItem';
-import { CONFLICT } from 'http-status-codes';
 import _isNil from 'ramda/src/isNil';
 import FacadeConfig from '../../FacadeConfig';
 
 export default <I extends Item>(
   config: FacadeConfig<I>
-): CreateItem<I> => async ({ id, item }) => {
+): CreateItem<I> => async ({ item, id }) => {
   try {
     const connection = await config.ky();
 
@@ -21,7 +20,7 @@ export default <I extends Item>(
     const response = await connection('', {
       ...options,
       json: {
-        item,
+        ...item,
         ...json,
       },
       method: 'post',
@@ -31,10 +30,6 @@ export default <I extends Item>(
       item: config.convertDocumentIntoItem(response.item),
     });
   } catch (error) {
-    if (error.response.status === CONFLICT) {
-      return Promise.reject(new ConflictingItemError(config.itemName, id));
-    }
-
     return Promise.reject(error);
   }
 };

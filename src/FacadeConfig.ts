@@ -7,7 +7,7 @@ export type Document = any;
 
 export default interface FacadeConfig<I extends Item> {
   readonly ky: () => Promise<typeof ky>;
-  readonly createFilter: (filter: Filter<I>) => any;
+  readonly createFilter: (filter?: Filter<I>) => any;
   readonly convertDocumentIntoItem: (document: Document) => I;
   readonly convertItemIntoOptions: ConvertItemIntoOptions<I>;
   readonly createSort: (sort: Sort<I>) => any;
