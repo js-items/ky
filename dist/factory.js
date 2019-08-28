@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // import Facade from '@js-items/foundation/dist/Facade';
+// import Facade from '@js-items/foundation/dist/Facade';
 var defaultTo_1 = __importDefault(require("ramda/src/defaultTo"));
 var createItem_1 = __importDefault(require("./functions/createItem"));
 // import defaultDeleteItem from './functions/deleteItem';
@@ -34,10 +35,11 @@ var createItem_1 = __importDefault(require("./functions/createItem"));
 // import defaultUpdateItem from './functions/updateItem';
 // import { Handler } from './types/handler';
 var defaultConvertItemToOptions_1 = __importDefault(require("./utils/defaultConvertItemToOptions"));
+var emptyOptions_1 = require("./utils/emptyOptions");
 exports.default = (function (_a) {
     var deleteItem = _a.deleteItem, deleteItems = _a.deleteItems, getItem = _a.getItem, getItems = _a.getItems, updateItem = _a.updateItem, replaceItem = _a.replaceItem, createItem = _a.createItem, convertItemIntoOptions = _a.convertItemIntoOptions, config = __rest(_a, ["deleteItem", "deleteItems", "getItem", "getItems", "updateItem", "replaceItem", "createItem", "convertItemIntoOptions"]);
     var itemIntoOptions = defaultTo_1.default(defaultConvertItemToOptions_1.default)(convertItemIntoOptions);
-    var facadeConfig = __assign({ convertDocumentIntoItem: function (document) { return document; }, convertItemIntoOptions: itemIntoOptions, createFilter: function (filter) { return filter; }, createItemOptions: defaultConvertItemToOptions_1.default, createSort: function (sort) { return sort; }, defaultPaginationLimit: 10, deleteItemOptions: itemIntoOptions, deleteItemsOptions: itemIntoOptions, getItemOptions: itemIntoOptions, getItemsOptions: itemIntoOptions, replaceItemOptions: itemIntoOptions, updateItemOptions: itemIntoOptions }, config);
+    var facadeConfig = __assign({ convertDocumentIntoItem: function (document) { return document; }, convertItemIntoOptions: itemIntoOptions, createFilter: emptyOptions_1.emptyOptions, createItemOptions: defaultConvertItemToOptions_1.default, createSort: function (sort) { return sort; }, defaultPaginationLimit: 10, deleteItemOptions: emptyOptions_1.emptyOptions, deleteItemsOptions: itemIntoOptions, getItemOptions: itemIntoOptions, getItemsOptions: itemIntoOptions, replaceItemOptions: itemIntoOptions, updateItemOptions: itemIntoOptions }, config);
     var createItemFactory = defaultTo_1.default(createItem_1.default)(createItem);
     // const deleteItemFactory = _defaultTo(
     //   defaultDeleteItem

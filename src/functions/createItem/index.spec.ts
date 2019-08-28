@@ -30,7 +30,7 @@ describe('@createItem', () => {
     expect(item).toEqual(testItem);
 
     expect(kyMock).toBeCalledWith('', {
-      json: { item: testItem },
+      json: { ...testItem },
       method: 'post',
     });
   });
@@ -53,7 +53,7 @@ describe('@createItem', () => {
     });
 
     expect(kyMock).toBeCalledWith('', {
-      json: { item: testItem, otherProp: 'test' },
+      json: { ...testItem, otherProp: 'test' },
       method: 'post',
     });
   });

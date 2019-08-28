@@ -20,7 +20,7 @@ export default <I extends Item>(
     const response = await connection('', {
       ...options,
       json: {
-        item,
+        ...item,
         ...json,
       },
       method: 'post',

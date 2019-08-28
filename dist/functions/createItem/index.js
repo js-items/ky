@@ -50,12 +50,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable:no-any
-var foundation_1 = require("@js-items/foundation");
-var http_status_codes_1 = require("http-status-codes");
 var isNil_1 = __importDefault(require("ramda/src/isNil"));
 exports.default = (function (config) { return function (_a) {
-    var id = _a.id, item = _a.item;
+    var item = _a.item, id = _a.id;
     return __awaiter(_this, void 0, void 0, function () {
         var connection, options, json, response, error_1;
         return __generator(this, function (_b) {
@@ -69,7 +66,7 @@ exports.default = (function (config) { return function (_a) {
                     json = !isNil_1.default(options) && !isNil_1.default(options.json)
                         ? options.json
                         : {};
-                    return [4 /*yield*/, connection('', __assign({}, options, { json: __assign({ item: item }, json), method: 'post' })).json()];
+                    return [4 /*yield*/, connection('', __assign({}, options, { json: __assign({}, item, json), method: 'post' })).json()];
                 case 2:
                     response = _b.sent();
                     return [2 /*return*/, Promise.resolve({
@@ -77,9 +74,6 @@ exports.default = (function (config) { return function (_a) {
                         })];
                 case 3:
                     error_1 = _b.sent();
-                    if (error_1.response.status === http_status_codes_1.CONFLICT) {
-                        return [2 /*return*/, Promise.reject(new foundation_1.ConflictingItemError(config.itemName, id))];
-                    }
                     return [2 /*return*/, Promise.reject(error_1)];
                 case 4: return [2 /*return*/];
             }
