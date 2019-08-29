@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* istanbul ignore next */
 var testItem_1 = __importDefault(require("@js-items/foundation/dist/functions/utils/testItem"));
 var emptyOptions_1 = require("../emptyOptions");
 exports.defaultDocumentConverter = jest.fn(function () { return ({}); });

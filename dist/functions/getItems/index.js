@@ -63,7 +63,11 @@ exports.default = (function (config) {
     // tslint:disable-next-line:no-object-literal-type-assertion
     var defaultSort = { id: SortOrder_1.asc };
     return function (_a) {
-        var _b = _a.filter, filter = _b === void 0 ? {} : _b, _c = _a.sort, sort = _c === void 0 ? defaultSort : _c, _d = _a.pagination, pagination = _d === void 0 ? defaultPagination : _d;
+        var _b = _a.filter, filter = _b === void 0 ? {} : _b, _c = _a.sort, sort = _c === void 0 ? defaultSort : _c, 
+        /* istanbul ignore next */
+        _d = _a.pagination, 
+        /* istanbul ignore next */
+        pagination = _d === void 0 ? defaultPagination : _d;
         return __awaiter(_this, void 0, void 0, function () {
             var connection, options, createdFilter, createdSort, paginationParams, stringifiedPaginationParams, params, searchParams, _e, fetchedItems, cursor, items, error_1;
             return __generator(this, function (_f) {

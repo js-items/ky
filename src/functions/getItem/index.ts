@@ -20,8 +20,8 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItem<I> => async ({
     const params = { filter: JSON.stringify(createFilter) };
 
     const searchParams =
-      !_isNil(options) && !_isNil((options).searchParams)
-        ? (options).searchParams
+      !_isNil(options) && !_isNil(options.searchParams)
+        ? options.searchParams
         : {};
 
     const response = await connection

@@ -65,8 +65,8 @@ exports.default = (function (config) { return function (_a) {
                     createFilter = config.createFilter(filter);
                     options = config.getItemOptions();
                     params = { filter: JSON.stringify(createFilter) };
-                    searchParams = !isNil_1.default(options) && !isNil_1.default((options).searchParams)
-                        ? (options).searchParams
+                    searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
+                        ? options.searchParams
                         : {};
                     return [4 /*yield*/, connection
                             .get("/" + id, __assign({}, options, { searchParams: __assign({}, searchParams, params) }))

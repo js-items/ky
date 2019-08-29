@@ -19,13 +19,13 @@ export default <I extends Item>(
     const params = { filter: JSON.stringify(createFilter) };
 
     const searchParams =
-      !_isNil(options) && !_isNil((options).searchParams)
-        ? (options).searchParams
+      !_isNil(options) && !_isNil(options.searchParams)
+        ? options.searchParams
         : {};
 
     const json =
-      !_isNil(options) && !_isNil((options).json)
-        ? (options).json
+      /* istanbul ignore next */ !_isNil(options) && !_isNil(options.json)
+        ? options.json
         : {};
 
     const response = await connection

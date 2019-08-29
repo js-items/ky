@@ -20,6 +20,7 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
   return async ({
     filter = {},
     sort = defaultSort,
+    /* istanbul ignore next */
     pagination = defaultPagination,
   }) => {
     try {

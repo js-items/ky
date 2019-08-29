@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 import testItem, {
   TestItem,
 } from '@js-items/foundation/dist/functions/utils/testItem';

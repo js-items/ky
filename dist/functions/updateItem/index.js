@@ -65,11 +65,12 @@ exports.default = (function (config) { return function (_a) {
                     options = config.updateItemOptions(__assign({}, patch, { id: id }));
                     createFilter = config.createFilter(filter);
                     params = { filter: JSON.stringify(createFilter) };
-                    searchParams = !isNil_1.default(options) && !isNil_1.default((options).searchParams)
-                        ? (options).searchParams
+                    searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
+                        ? options.searchParams
                         : {};
-                    json = !isNil_1.default(options) && !isNil_1.default((options).json)
-                        ? (options).json
+                    json = 
+                    /* istanbul ignore next */ !isNil_1.default(options) && !isNil_1.default(options.json)
+                        ? options.json
                         : {};
                     return [4 /*yield*/, connection
                             .patch("/" + id, __assign({}, options, { json: __assign({}, patch, json), searchParams: __assign({}, searchParams, params) }))
