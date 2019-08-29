@@ -10,31 +10,34 @@ export default <I extends Item>(
   try {
     const connection = await config.ky();
 
-    const options = config.updateItemOptions({ ...patch, id });
+    // TODO: update types for options once this code would be release:
+    // https://github.com/sindresorhus/ky/pull/165/files
+    const options: any = config.updateItemOptions({ ...patch, id });
 
     const createFilter = config.createFilter(filter);
 
     const params = { filter: JSON.stringify(createFilter) };
 
     const searchParams =
-      !_isNil(options) && !_isNil((options as any).searchParams)
-        ? (options as any).searchParams
+      !_isNil(options) && !_isNil((options).searchParams)
+        ? (options).searchParams
         : {};
 
     const json =
-      !_isNil(options) && !_isNil((options as any).json)
-        ? (options as any).json
+      !_isNil(options) && !_isNil((options).json)
+        ? (options).json
         : {};
 
-    const response = await connection(`/${id}`, {
-      ...options,
-      json: {
-        ...patch,
-        ...json,
-      },
-      method: 'patch',
-      searchParams: { ...searchParams, ...params },
-    }).json<Result<I>>();
+    const response = await connection
+      .patch(`/${id}`, {
+        ...options,
+        json: {
+          ...patch,
+          ...json,
+        },
+        searchParams: { ...searchParams, ...params },
+      })
+      .json<Result<I>>();
 
     return Promise.resolve({
       item: config.convertDocumentIntoItem(response.item),

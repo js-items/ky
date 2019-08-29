@@ -3,6 +3,8 @@ import { GetItems, Item, Pagination, Sort } from '@js-items/foundation';
 import { Result } from '@js-items/foundation/dist/functions/GetItems';
 import { asc } from '@js-items/foundation/dist/interfaces/SortOrder';
 import _isNil from 'ramda/src/isNil';
+import _mapObjIndexed from 'ramda/src/mapObjIndexed';
+import _pickBy from 'ramda/src/pickBy';
 import FacadeConfig from '../../FacadeConfig';
 
 export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
@@ -23,30 +25,41 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
     try {
       const connection = await config.ky();
 
-      const options = config.getItemsOptions();
+      // TODO: update types for options once this code would be release:
+      // https://github.com/sindresorhus/ky/pull/165/files
+      const options: any = config.getItemsOptions();
 
       const createdFilter = config.createFilter(filter);
 
       const createdSort = config.createSort(sort);
 
+      const paginationParams = _pickBy<
+        Pagination,
+        Partial<Pagination> | Pagination
+      >((val: keyof Pagination) => !_isNil(val), pagination);
+
+      const stringifiedPaginationParams = _mapObjIndexed(
+        String,
+        paginationParams
+      );
+
       const params = {
-        after: pagination.after,
-        before: pagination.before,
+        ...stringifiedPaginationParams,
         filter: JSON.stringify(createdFilter),
-        limit: pagination.limit,
         sort: JSON.stringify(createdSort),
       };
 
       const searchParams =
-        !_isNil(options) && !_isNil((options as any).searchParams)
-          ? (options as any).searchParams
+        !_isNil(options) && !_isNil(options.searchParams)
+          ? options.searchParams
           : {};
 
-      const { items: fetchedItems, cursor } = await connection('', {
-        ...options,
-        method: 'get',
-        searchParams: { ...params, ...searchParams },
-      }).json<Result<I>>();
+      const { items: fetchedItems, cursor } = await connection
+        .get('', {
+          ...options,
+          searchParams: { ...params, ...searchParams },
+        })
+        .json<Result<I>>();
 
       const items = fetchedItems.map(config.convertDocumentIntoItem);
 

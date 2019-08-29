@@ -8,11 +8,6 @@ export const defaultDocumentConverter = jest.fn(() => ({}));
 
 export const jsonOptions = jest.fn(() => ({ json: { item: testItem } }));
 
-const ky = jest.fn(
-  () => Promise.resolve(jest.fn(() => ({ json: () => ({ item: testItem }) })))
-  // tslint:disable-next-line:no-any
-) as any;
-
 export const config: FacadeConfig<TestItem> = {
   convertDocumentIntoItem: jest.fn(() => testItem),
   convertItemIntoOptions: defaultDocumentConverter,
@@ -25,7 +20,10 @@ export const config: FacadeConfig<TestItem> = {
   getItemOptions: defaultDocumentConverter,
   getItemsOptions: defaultDocumentConverter,
   itemName: 'TestItem',
-  ky,
+  ky: jest.fn(
+    () => Promise.resolve({})
+    // tslint:disable-next-line:no-any
+  ) as any,
   replaceItemOptions: jsonOptions,
   updateItemOptions: jsonOptions,
 };

@@ -1,14 +1,14 @@
 // tslint:disable:no-any
 import { ItemNotFoundError } from '@js-items/foundation';
 import testItem from '@js-items/foundation/dist/functions/utils/testItem';
-import { config } from '../../utils/testConfig';
+import { config, jsonOptions } from '../../utils/testConfig';
 import getItem from './index';
 
 beforeEach(() => jest.clearAllMocks());
 
 describe('@getItem', () => {
   it('gets item', async () => {
-    const kyMock = jest.fn(() => ({
+    const getMock = jest.fn(() => ({
       json: () => Promise.resolve({ item: testItem }),
     }));
 
@@ -19,7 +19,7 @@ describe('@getItem', () => {
       ...config,
       createFilter: createFilterMock,
       getItemOptions: getItemOptionsMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ get: getMock }) as any,
     })({
       id: testItem.id,
     });
@@ -32,14 +32,13 @@ describe('@getItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
-      method: 'get',
+    expect(getMock).toBeCalledWith(`/${testItem.id}`, {
       searchParams: { filter: JSON.stringify({}) },
     });
   });
 
   it('gets item with custom filter object', async () => {
-    const kyMock = jest.fn(() => ({
+    const getMock = jest.fn(() => ({
       json: () => Promise.resolve({ item: testItem, otherProp: 'test' }),
     }));
 
@@ -57,7 +56,7 @@ describe('@getItem', () => {
       ...config,
       createFilter: createFilterMock,
       getItemOptions: getItemOptionsMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ get: getMock }) as any,
     })({
       filter,
       id: testItem.id,
@@ -65,8 +64,7 @@ describe('@getItem', () => {
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
-      method: 'get',
+    expect(getMock).toBeCalledWith(`/${testItem.id}`, {
       searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
     });
   });
@@ -76,7 +74,7 @@ describe('@getItem', () => {
 
     const facadeConfig = {
       ...config,
-      getItemOptions: jest.fn(() => ({ json: { item: testItem } })),
+      getItemOptions: jsonOptions,
       ky: jest.fn(() => Promise.reject(error)),
     };
 

@@ -63,7 +63,7 @@ var defaultOptions = {
     id: testItem_1.default.id,
     patch: testItem_1.default,
 };
-var kyMock = jest.fn(function () { return ({
+var updateMock = jest.fn(function () { return ({
     json: function () { return Promise.resolve({ item: testItem_1.default }); },
 }); });
 describe('@updateItem', function () {
@@ -74,16 +74,15 @@ describe('@updateItem', function () {
                 case 0:
                     createFilterMock = jest.fn(function () { return ({}); });
                     updateItemOptionsMock = jest.fn(function () { return ({}); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve(kyMock); }, updateItemOptions: updateItemOptionsMock }))(defaultOptions)];
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(defaultOptions)];
                 case 1:
                     item = (_a.sent()).item;
                     expect(updateItemOptionsMock).toBeCalledWith(testItem_1.default);
                     expect(createFilterMock).toBeCalledWith({});
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(kyMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(updateMock).toBeCalledWith("/" + testItem_1.default.id, {
                         json: __assign({}, testItem_1.default),
-                        method: 'patch',
                         searchParams: { filter: JSON.stringify({}) },
                     });
                     return [2 /*return*/];
@@ -99,13 +98,12 @@ describe('@updateItem', function () {
                     updateItemOptionsMock = jest.fn(function () { return ({
                         searchParams: { pretty: 'false' },
                     }); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve(kyMock); }, updateItemOptions: updateItemOptionsMock }))(__assign({}, defaultOptions, { filter: filter }))];
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(__assign({}, defaultOptions, { filter: filter }))];
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
-                    expect(kyMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(updateMock).toBeCalledWith("/" + testItem_1.default.id, {
                         json: __assign({}, testItem_1.default),
-                        method: 'patch',
                         searchParams: { filter: JSON.stringify(filter), pretty: 'false' },
                     });
                     return [2 /*return*/];
@@ -118,7 +116,7 @@ describe('@updateItem', function () {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ItemNotFoundError('TestItem');
-                    facadeConfig = __assign({}, testConfig_1.config, { ky: jest.fn(function () { return Promise.reject(error); }), updateItemOptions: jest.fn(function () { return ({ json: { item: testItem_1.default } }); }) });
+                    facadeConfig = __assign({}, testConfig_1.config, { ky: jest.fn(function () { return Promise.reject(error); }), updateItemOptions: testConfig_1.jsonOptions });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

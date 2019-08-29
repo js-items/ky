@@ -58,17 +58,18 @@ var index_1 = __importDefault(require("./index"));
 beforeEach(function () { return jest.clearAllMocks(); });
 describe('@deleteItems', function () {
     it('deletes items with no filter', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock;
+        var deleteMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn();
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { ky: function () { return Promise.resolve(kyMock); } }))({})];
+                    deleteMock = jest.fn(function () { return ({
+                        json: function () { return Promise.resolve({ item: testItem_1.default }); },
+                    }); });
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({})];
                 case 1:
                     _a.sent();
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
-                    expect(kyMock).toBeCalledWith('', {
-                        method: 'delete',
+                    expect(deleteMock).toBeCalledWith('', {
                         searchParams: { filter: JSON.stringify({}) },
                     });
                     return [2 /*return*/];
@@ -76,23 +77,24 @@ describe('@deleteItems', function () {
         });
     }); });
     it('deletes items with filter and custom search params', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock, filter, createFilterMock;
+        var deleteMock, filter, createFilterMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn();
+                    deleteMock = jest.fn(function () { return ({
+                        json: function () { return Promise.resolve({ item: testItem_1.default }); },
+                    }); });
                     filter = {
                         id: { $eq: testItem_1.default.id },
                     };
                     createFilterMock = jest.fn(function () { return filter; });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, deleteItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, deleteItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({
                             filter: filter,
                         })];
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
-                    expect(kyMock).toBeCalledWith('', {
-                        method: 'delete',
+                    expect(deleteMock).toBeCalledWith('', {
                         searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
                     });
                     return [2 /*return*/];

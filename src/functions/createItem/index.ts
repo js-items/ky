@@ -10,21 +10,22 @@ export default <I extends Item>(
   try {
     const connection = await config.ky();
 
-    const options = config.createItemOptions({ ...item, id });
+    // TODO: update types for options once this code would be release:
+    // https://github.com/sindresorhus/ky/pull/165/files
+    const options: any = config.createItemOptions({ ...item, id });
 
     const json =
-      !_isNil(options) && !_isNil((options as any).json)
-        ? (options as any).json
-        : {};
+      !_isNil(options) && !_isNil(options.json) ? (options).json : {};
 
-    const response = await connection('', {
-      ...options,
-      json: {
-        ...item,
-        ...json,
-      },
-      method: 'post',
-    }).json<Result<I>>();
+    const response = await connection
+      .post('', {
+        ...options,
+        json: {
+          ...item,
+          ...json,
+        },
+      })
+      .json<Result<I>>();
 
     return Promise.resolve({
       item: config.convertDocumentIntoItem(response.item),

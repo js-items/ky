@@ -7,9 +7,6 @@ var testItem_1 = __importDefault(require("@js-items/foundation/dist/functions/ut
 var emptyOptions_1 = require("../emptyOptions");
 exports.defaultDocumentConverter = jest.fn(function () { return ({}); });
 exports.jsonOptions = jest.fn(function () { return ({ json: { item: testItem_1.default } }); });
-var ky = jest.fn(function () { return Promise.resolve(jest.fn(function () { return ({ json: function () { return ({ item: testItem_1.default }); } }); })); }
-// tslint:disable-next-line:no-any
-);
 exports.config = {
     convertDocumentIntoItem: jest.fn(function () { return testItem_1.default; }),
     convertItemIntoOptions: exports.defaultDocumentConverter,
@@ -22,7 +19,9 @@ exports.config = {
     getItemOptions: exports.defaultDocumentConverter,
     getItemsOptions: exports.defaultDocumentConverter,
     itemName: 'TestItem',
-    ky: ky,
+    ky: jest.fn(function () { return Promise.resolve({}); }
+    // tslint:disable-next-line:no-any
+    ),
     replaceItemOptions: exports.jsonOptions,
     updateItemOptions: exports.jsonOptions,
 };
