@@ -58,7 +58,7 @@ var testConfig_1 = require("../../utils/testConfig");
 var index_1 = __importDefault(require("./index"));
 beforeEach(function () { return jest.clearAllMocks(); });
 var testItemCursor = foundation_1.createCursorFromItem(testItem_1.default, { id: SortOrder_1.asc });
-var kyMock = jest.fn(function () { return ({
+var getMock = jest.fn(function () { return ({
     json: jest.fn(function () { return ({
         cursor: {
             after: testItemCursor,
@@ -73,24 +73,21 @@ var filter = {
     id: { $eq: testItem_1.default.id },
 };
 var expectedSearchParams = {
-    after: undefined,
-    before: undefined,
     filter: JSON.stringify(filter),
-    limit: 10,
+    limit: '10',
     sort: JSON.stringify({}),
 };
 describe('@getItems', function () {
     it('gets items with no filter', function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { ky: function () { return Promise.resolve(kyMock); } }))({})];
+                case 0: return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { ky: function () { return Promise.resolve({ get: getMock }); } }))({})];
                 case 1:
                     _a.sent();
                     expect(testConfig_1.config.getItemsOptions).toBeCalledTimes(1);
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
                     expect(testConfig_1.config.createSort).toBeCalledWith({ id: 'asc' });
-                    expect(kyMock).toBeCalledWith('', {
-                        method: 'get',
+                    expect(getMock).toBeCalledWith('', {
                         searchParams: __assign({}, expectedSearchParams, { filter: JSON.stringify({}) }),
                     });
                     return [2 /*return*/];
@@ -103,7 +100,7 @@ describe('@getItems', function () {
             switch (_b.label) {
                 case 0:
                     createFilterMock = jest.fn(function () { return filter; });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ get: getMock }); } }))({
                             filter: filter,
                             sort: { booleanProperty: 'desc' },
                         })];
@@ -111,8 +108,7 @@ describe('@getItems', function () {
                     _a = _b.sent(), cursor = _a.cursor, items = _a.items;
                     expect(createFilterMock).toBeCalledWith(filter);
                     expect(testConfig_1.config.createSort).toBeCalledWith({ booleanProperty: 'desc' });
-                    expect(kyMock).toBeCalledWith('', {
-                        method: 'get',
+                    expect(getMock).toBeCalledWith('', {
                         searchParams: __assign({}, expectedSearchParams, { pretty: 'true' }),
                     });
                     expect(items).toEqual([testItem_1.default]);

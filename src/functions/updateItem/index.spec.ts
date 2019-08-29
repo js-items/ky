@@ -1,7 +1,7 @@
 // tslint:disable:no-any
 import { ItemNotFoundError } from '@js-items/foundation';
 import testItem from '@js-items/foundation/dist/functions/utils/testItem';
-import { config } from '../../utils/testConfig';
+import { config, jsonOptions } from '../../utils/testConfig';
 import updateItem from './index';
 
 beforeEach(() => jest.clearAllMocks());
@@ -15,7 +15,7 @@ const defaultOptions = {
   patch: testItem,
 };
 
-const kyMock = jest.fn(() => ({
+const updateMock = jest.fn(() => ({
   json: () => Promise.resolve({ item: testItem }),
 }));
 
@@ -27,7 +27,7 @@ describe('@updateItem', () => {
     const { item } = await updateItem({
       ...config,
       createFilter: createFilterMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({patch: updateMock}) as any,
       updateItemOptions: updateItemOptionsMock,
     })(defaultOptions);
 
@@ -39,9 +39,8 @@ describe('@updateItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(updateMock).toBeCalledWith(`/${testItem.id}`, {
       json: { ...testItem },
-      method: 'patch',
       searchParams: { filter: JSON.stringify({}) },
     });
   });
@@ -56,15 +55,14 @@ describe('@updateItem', () => {
     await updateItem({
       ...config,
       createFilter: createFilterMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({patch: updateMock}) as any,
       updateItemOptions: updateItemOptionsMock,
     })({ ...defaultOptions, filter });
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(updateMock).toBeCalledWith(`/${testItem.id}`, {
       json: { ...testItem },
-      method: 'patch',
       searchParams: { filter: JSON.stringify(filter), pretty: 'false' },
     });
   });
@@ -75,7 +73,7 @@ describe('@updateItem', () => {
     const facadeConfig = {
       ...config,
       ky: jest.fn(() => Promise.reject(error)),
-      updateItemOptions: jest.fn(() => ({ json: { item: testItem } })),
+      updateItemOptions: jsonOptions,
     };
 
     try {

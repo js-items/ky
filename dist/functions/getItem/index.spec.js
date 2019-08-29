@@ -58,16 +58,16 @@ var index_1 = __importDefault(require("./index"));
 beforeEach(function () { return jest.clearAllMocks(); });
 describe('@getItem', function () {
     it('gets item', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock, getItemOptionsMock, createFilterMock, item;
+        var getMock, getItemOptionsMock, createFilterMock, item;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn(function () { return ({
+                    getMock = jest.fn(function () { return ({
                         json: function () { return Promise.resolve({ item: testItem_1.default }); },
                     }); });
                     getItemOptionsMock = jest.fn(function () { return ({}); });
                     createFilterMock = jest.fn(function () { return ({}); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemOptions: getItemOptionsMock, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemOptions: getItemOptionsMock, ky: function () { return Promise.resolve({ get: getMock }); } }))({
                             id: testItem_1.default.id,
                         })];
                 case 1:
@@ -76,8 +76,7 @@ describe('@getItem', function () {
                     expect(getItemOptionsMock).toBeCalledTimes(1);
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(kyMock).toBeCalledWith("/" + testItem_1.default.id, {
-                        method: 'get',
+                    expect(getMock).toBeCalledWith("/" + testItem_1.default.id, {
                         searchParams: { filter: JSON.stringify({}) },
                     });
                     return [2 /*return*/];
@@ -85,11 +84,11 @@ describe('@getItem', function () {
         });
     }); });
     it('gets item with custom filter object', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock, filter, getItemOptionsMock, createFilterMock;
+        var getMock, filter, getItemOptionsMock, createFilterMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn(function () { return ({
+                    getMock = jest.fn(function () { return ({
                         json: function () { return Promise.resolve({ item: testItem_1.default, otherProp: 'test' }); },
                     }); });
                     filter = {
@@ -99,15 +98,14 @@ describe('@getItem', function () {
                         searchParams: { pretty: 'true' },
                     }); });
                     createFilterMock = jest.fn(function () { return filter; });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemOptions: getItemOptionsMock, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, getItemOptions: getItemOptionsMock, ky: function () { return Promise.resolve({ get: getMock }); } }))({
                             filter: filter,
                             id: testItem_1.default.id,
                         })];
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
-                    expect(kyMock).toBeCalledWith("/" + testItem_1.default.id, {
-                        method: 'get',
+                    expect(getMock).toBeCalledWith("/" + testItem_1.default.id, {
                         searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
                     });
                     return [2 /*return*/];
@@ -120,7 +118,7 @@ describe('@getItem', function () {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ItemNotFoundError('TestItem', testItem_1.default.id);
-                    facadeConfig = __assign({}, testConfig_1.config, { getItemOptions: jest.fn(function () { return ({ json: { item: testItem_1.default } }); }), ky: jest.fn(function () { return Promise.reject(error); }) });
+                    facadeConfig = __assign({}, testConfig_1.config, { getItemOptions: testConfig_1.jsonOptions, ky: jest.fn(function () { return Promise.reject(error); }) });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

@@ -1,4 +1,5 @@
-import { /* DeleteItem, */ Item } from '@js-items/foundation';
+import { Item } from '@js-items/foundation';
+import Facade from '@js-items/foundation/dist/Facade';
 import FactoryConfig from './FactoryConfig';
-declare const _default: <I extends Item>({ deleteItem, deleteItems, getItem, getItems, updateItem, replaceItem, createItem, convertItemIntoOptions, ...config }: FactoryConfig<I>) => any;
-export default _default;
+declare const factory: <I extends Item>({ deleteItem, deleteItems, getItem, getItems, updateItem, replaceItem, createItem, convertItemIntoOptions, ...config }: FactoryConfig<I>) => Facade<I>;
+export default factory;

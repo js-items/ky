@@ -13,20 +13,23 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItem<I> => async ({
 
     const createFilter = config.createFilter(filter);
 
-    const options = config.getItemOptions();
+    // TODO: update types for options once this code would be release:
+    // https://github.com/sindresorhus/ky/pull/165/files
+    const options: any = config.getItemOptions();
 
     const params = { filter: JSON.stringify(createFilter) };
 
     const searchParams =
-      !_isNil(options) && !_isNil((options as any).searchParams)
-        ? (options as any).searchParams
+      !_isNil(options) && !_isNil(options.searchParams)
+        ? options.searchParams
         : {};
 
-    const response = await connection(`/${id}`, {
-      ...options,
-      method: 'get',
-      searchParams: { ...searchParams, ...params },
-    }).json<Result<I>>();
+    const response = await connection
+      .get(`/${id}`, {
+        ...options,
+        searchParams: { ...searchParams, ...params },
+      })
+      .json<Result<I>>();
 
     return Promise.resolve({
       item: config.convertDocumentIntoItem(response.item),

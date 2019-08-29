@@ -8,25 +8,29 @@ beforeEach(() => jest.clearAllMocks());
 
 describe('@deleteItem', () => {
   it('deletes item with no filter', async () => {
-    const kyMock = jest.fn();
+    const deleteMock = jest.fn(() => ({
+      json: () => Promise.resolve({ item: testItem }),
+    }));
 
     await deleteItem({
       ...config,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ delete: deleteMock }) as any,
     })({
       id: testItem.id,
     });
 
     expect(config.createFilter).toBeCalledWith({});
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
-      method: 'delete',
+    expect(deleteMock).toBeCalledWith(`/${testItem.id}`, {
       searchParams: { filter: JSON.stringify({}) },
     });
   });
 
   it('deletes item with filter and custom search params', async () => {
-    const kyMock = jest.fn();
+    const deleteMock = jest.fn(() => ({
+      json: () => Promise.resolve({ item: testItem }),
+    }));
+
     const filter = {
       id: { $eq: testItem.id },
     };
@@ -36,7 +40,7 @@ describe('@deleteItem', () => {
       ...config,
       createFilter: createFilterMock,
       deleteItemOptions: () => ({ searchParams: { pretty: 'true' } }),
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ delete: deleteMock }) as any,
     })({
       filter,
       id: testItem.id,
@@ -44,8 +48,7 @@ describe('@deleteItem', () => {
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
-      method: 'delete',
+    expect(deleteMock).toBeCalledWith(`/${testItem.id}`, {
       searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
     });
   });

@@ -68,10 +68,13 @@ exports.default = (function (config) { return function (_a) {
                     searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
                         ? options.searchParams
                         : {};
-                    json = !isNil_1.default(options) && !isNil_1.default(options.json)
+                    json = 
+                    /* istanbul ignore next */ !isNil_1.default(options) && !isNil_1.default(options.json)
                         ? options.json
                         : {};
-                    return [4 /*yield*/, connection("/" + id, __assign({}, options, { json: __assign({}, item, json), method: 'put', searchParams: __assign({}, searchParams, params) })).json()];
+                    return [4 /*yield*/, connection
+                            .put("/" + id, __assign({}, options, { json: __assign({}, item, json), searchParams: __assign({}, searchParams, params) }))
+                            .json()];
                 case 2:
                     response = _c.sent();
                     return [2 /*return*/, Promise.resolve({

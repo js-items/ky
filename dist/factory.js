@@ -23,34 +23,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import Facade from '@js-items/foundation/dist/Facade';
-// import Facade from '@js-items/foundation/dist/Facade';
 var defaultTo_1 = __importDefault(require("ramda/src/defaultTo"));
 var createItem_1 = __importDefault(require("./functions/createItem"));
-// import defaultDeleteItem from './functions/deleteItem';
-// import defaultDeleteItems from './functions/deleteItems';
-// import defaultGetItem from './functions/getItem';
-// import defaultGetItems from './functions/getItems';
-// import defaultReplaceItem from './functions/replaceItem';
-// import defaultUpdateItem from './functions/updateItem';
-// import { Handler } from './types/handler';
+var deleteItem_1 = __importDefault(require("./functions/deleteItem"));
+var deleteItems_1 = __importDefault(require("./functions/deleteItems"));
+var getItem_1 = __importDefault(require("./functions/getItem"));
+var getItems_1 = __importDefault(require("./functions/getItems"));
+var replaceItem_1 = __importDefault(require("./functions/replaceItem"));
+var updateItem_1 = __importDefault(require("./functions/updateItem"));
 var defaultConvertItemToOptions_1 = __importDefault(require("./utils/defaultConvertItemToOptions"));
 var emptyOptions_1 = require("./utils/emptyOptions");
-exports.default = (function (_a) {
+var factory = function (_a) {
     var deleteItem = _a.deleteItem, deleteItems = _a.deleteItems, getItem = _a.getItem, getItems = _a.getItems, updateItem = _a.updateItem, replaceItem = _a.replaceItem, createItem = _a.createItem, convertItemIntoOptions = _a.convertItemIntoOptions, config = __rest(_a, ["deleteItem", "deleteItems", "getItem", "getItems", "updateItem", "replaceItem", "createItem", "convertItemIntoOptions"]);
     var itemIntoOptions = defaultTo_1.default(defaultConvertItemToOptions_1.default)(convertItemIntoOptions);
     var facadeConfig = __assign({ convertDocumentIntoItem: function (document) { return document; }, convertItemIntoOptions: itemIntoOptions, createFilter: emptyOptions_1.emptyOptions, createItemOptions: defaultConvertItemToOptions_1.default, createSort: function (sort) { return sort; }, defaultPaginationLimit: 10, deleteItemOptions: emptyOptions_1.emptyOptions, deleteItemsOptions: itemIntoOptions, getItemOptions: itemIntoOptions, getItemsOptions: itemIntoOptions, replaceItemOptions: itemIntoOptions, updateItemOptions: itemIntoOptions }, config);
     var createItemFactory = defaultTo_1.default(createItem_1.default)(createItem);
-    // const deleteItemFactory = _defaultTo(
-    //   defaultDeleteItem
-    // )(deleteItem);
-    // const getItemFactory = _defaultTo(defaultGetItem)(getItem);
-    // const updateItemFactory = _defaultTo(defaultUpdateItem)(updateItem);
-    // const replaceItemFactory = _defaultTo(defaultReplaceItem)(replaceItem);
-    // const deleteItemsFactory = _defaultTo(defaultDeleteItems)(deleteItems);
-    // const getItemsFactory = _defaultTo(defaultGetItems)(getItems);
+    var deleteItemFactory = defaultTo_1.default(deleteItem_1.default)(deleteItem);
+    var getItemFactory = defaultTo_1.default(getItem_1.default)(getItem);
+    var updateItemFactory = defaultTo_1.default(updateItem_1.default)(updateItem);
+    var replaceItemFactory = defaultTo_1.default(replaceItem_1.default)(replaceItem);
+    var deleteItemsFactory = defaultTo_1.default(deleteItems_1.default)(deleteItems);
+    var getItemsFactory = defaultTo_1.default(getItems_1.default)(getItems);
     return {
         createItem: createItemFactory(facadeConfig),
+        deleteItem: deleteItemFactory(facadeConfig),
+        deleteItems: deleteItemsFactory(facadeConfig),
+        getItem: getItemFactory(facadeConfig),
+        getItems: getItemsFactory(facadeConfig),
+        replaceItem: replaceItemFactory(facadeConfig),
+        updateItem: updateItemFactory(facadeConfig),
     };
-});
+};
+exports.default = factory;
 //# sourceMappingURL=factory.js.map

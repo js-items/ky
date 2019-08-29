@@ -1,14 +1,14 @@
 // tslint:disable:no-any
 import { ConflictingItemError } from '@js-items/foundation';
 import testItem from '@js-items/foundation/dist/functions/utils/testItem';
-import { config } from '../../utils/testConfig';
+import { config, jsonOptions } from '../../utils/testConfig';
 import createItem from './index';
 
 beforeEach(() => jest.clearAllMocks());
 
 describe('@createItem', () => {
   it('creates item', async () => {
-    const kyMock = jest.fn(() => ({
+    const postMock = jest.fn(() => ({
       json: () => Promise.resolve({ item: testItem }),
     }));
 
@@ -17,7 +17,7 @@ describe('@createItem', () => {
     const { item } = await createItem({
       ...config,
       createItemOptions: createItemOptionsMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ post: postMock }) as any,
     })({
       id: testItem.id,
       item: testItem,
@@ -29,14 +29,13 @@ describe('@createItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(kyMock).toBeCalledWith('', {
+    expect(postMock).toBeCalledWith('', {
       json: { ...testItem },
-      method: 'post',
     });
   });
 
   it('creates item with custom json object', async () => {
-    const kyMock = jest.fn(() => ({
+    const postMock = jest.fn(() => ({
       json: () => Promise.resolve({ item: testItem, otherProp: 'test' }),
     }));
 
@@ -47,14 +46,13 @@ describe('@createItem', () => {
     await createItem({
       ...config,
       createItemOptions: createItemOptionsMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ post: postMock }) as any,
     })({
       item: testItem,
     });
 
-    expect(kyMock).toBeCalledWith('', {
+    expect(postMock).toBeCalledWith('', {
       json: { ...testItem, otherProp: 'test' },
-      method: 'post',
     });
   });
 
@@ -63,7 +61,7 @@ describe('@createItem', () => {
 
     const facadeConfig = {
       ...config,
-      createItemOptions: jest.fn(() => ({ json: { item: testItem } })),
+      createItemOptions: jsonOptions,
       ky: jest.fn(() => Promise.reject(error)),
     };
 

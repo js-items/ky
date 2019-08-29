@@ -58,15 +58,15 @@ var index_1 = __importDefault(require("./index"));
 beforeEach(function () { return jest.clearAllMocks(); });
 describe('@createItem', function () {
     it('creates item', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock, createItemOptionsMock, item;
+        var postMock, createItemOptionsMock, item;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn(function () { return ({
+                    postMock = jest.fn(function () { return ({
                         json: function () { return Promise.resolve({ item: testItem_1.default }); },
                     }); });
                     createItemOptionsMock = jest.fn(function () { return ({}); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createItemOptions: createItemOptionsMock, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createItemOptions: createItemOptionsMock, ky: function () { return Promise.resolve({ post: postMock }); } }))({
                             id: testItem_1.default.id,
                             item: testItem_1.default,
                         })];
@@ -75,33 +75,31 @@ describe('@createItem', function () {
                     expect(createItemOptionsMock).toBeCalledWith(testItem_1.default);
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(kyMock).toBeCalledWith('', {
+                    expect(postMock).toBeCalledWith('', {
                         json: __assign({}, testItem_1.default),
-                        method: 'post',
                     });
                     return [2 /*return*/];
             }
         });
     }); });
     it('creates item with custom json object', function () { return __awaiter(_this, void 0, void 0, function () {
-        var kyMock, createItemOptionsMock;
+        var postMock, createItemOptionsMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    kyMock = jest.fn(function () { return ({
+                    postMock = jest.fn(function () { return ({
                         json: function () { return Promise.resolve({ item: testItem_1.default, otherProp: 'test' }); },
                     }); });
                     createItemOptionsMock = jest.fn(function () { return ({
                         json: { otherProp: 'test' },
                     }); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createItemOptions: createItemOptionsMock, ky: function () { return Promise.resolve(kyMock); } }))({
+                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createItemOptions: createItemOptionsMock, ky: function () { return Promise.resolve({ post: postMock }); } }))({
                             item: testItem_1.default,
                         })];
                 case 1:
                     _a.sent();
-                    expect(kyMock).toBeCalledWith('', {
+                    expect(postMock).toBeCalledWith('', {
                         json: __assign({}, testItem_1.default, { otherProp: 'test' }),
-                        method: 'post',
                     });
                     return [2 /*return*/];
             }
@@ -113,7 +111,7 @@ describe('@createItem', function () {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ConflictingItemError('TestItem');
-                    facadeConfig = __assign({}, testConfig_1.config, { createItemOptions: jest.fn(function () { return ({ json: { item: testItem_1.default } }); }), ky: jest.fn(function () { return Promise.reject(error); }) });
+                    facadeConfig = __assign({}, testConfig_1.config, { createItemOptions: testConfig_1.jsonOptions, ky: jest.fn(function () { return Promise.reject(error); }) });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

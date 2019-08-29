@@ -1,7 +1,7 @@
 // tslint:disable:no-any
 import { ItemNotFoundError } from '@js-items/foundation';
 import testItem from '@js-items/foundation/dist/functions/utils/testItem';
-import { config } from '../../utils/testConfig';
+import { config, jsonOptions } from '../../utils/testConfig';
 import replaceItem from './index';
 
 beforeEach(() => jest.clearAllMocks());
@@ -15,19 +15,20 @@ const defaultOptions = {
   item: testItem,
 };
 
-const kyMock = jest.fn(() => ({
+const replaceMock = jest.fn(() => ({
   json: () => Promise.resolve({ item: testItem }),
 }));
 
 describe('@replaceItem', () => {
   it('replaces item without filter', async () => {
     const createFilterMock = jest.fn(() => ({}));
+
     const replaceItemOptionsMock = jest.fn(() => ({}));
 
     const { item } = await replaceItem({
       ...config,
       createFilter: createFilterMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ put: replaceMock }) as any,
       replaceItemOptions: replaceItemOptionsMock,
     })(defaultOptions);
 
@@ -39,9 +40,8 @@ describe('@replaceItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(replaceMock).toBeCalledWith(`/${testItem.id}`, {
       json: { ...testItem },
-      method: 'put',
       searchParams: { filter: JSON.stringify({}) },
     });
   });
@@ -56,15 +56,14 @@ describe('@replaceItem', () => {
     await replaceItem({
       ...config,
       createFilter: createFilterMock,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ put: replaceMock }) as any,
       replaceItemOptions: replaceItemOptionsMock,
     })({ ...defaultOptions, filter });
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(kyMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(replaceMock).toBeCalledWith(`/${testItem.id}`, {
       json: { ...testItem },
-      method: 'put',
       searchParams: { filter: JSON.stringify(filter), pretty: 'false' },
     });
   });
@@ -75,7 +74,7 @@ describe('@replaceItem', () => {
     const facadeConfig = {
       ...config,
       ky: jest.fn(() => Promise.reject(error)),
-      replaceItemOptions: jest.fn(() => ({ json: { item: testItem } })),
+      replaceItemOptions: jsonOptions,
     };
 
     try {

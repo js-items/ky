@@ -52,6 +52,8 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var SortOrder_1 = require("@js-items/foundation/dist/interfaces/SortOrder");
 var isNil_1 = __importDefault(require("ramda/src/isNil"));
+var mapObjIndexed_1 = __importDefault(require("ramda/src/mapObjIndexed"));
+var pickBy_1 = __importDefault(require("ramda/src/pickBy"));
 exports.default = (function (config) {
     var defaultPagination = {
         after: undefined,
@@ -61,9 +63,13 @@ exports.default = (function (config) {
     // tslint:disable-next-line:no-object-literal-type-assertion
     var defaultSort = { id: SortOrder_1.asc };
     return function (_a) {
-        var _b = _a.filter, filter = _b === void 0 ? {} : _b, _c = _a.sort, sort = _c === void 0 ? defaultSort : _c, _d = _a.pagination, pagination = _d === void 0 ? defaultPagination : _d;
+        var _b = _a.filter, filter = _b === void 0 ? {} : _b, _c = _a.sort, sort = _c === void 0 ? defaultSort : _c, 
+        /* istanbul ignore next */
+        _d = _a.pagination, 
+        /* istanbul ignore next */
+        pagination = _d === void 0 ? defaultPagination : _d;
         return __awaiter(_this, void 0, void 0, function () {
-            var connection, options, createdFilter, createdSort, params, searchParams, _e, fetchedItems, cursor, items, error_1;
+            var connection, options, createdFilter, createdSort, paginationParams, stringifiedPaginationParams, params, searchParams, _e, fetchedItems, cursor, items, error_1;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0:
@@ -74,17 +80,15 @@ exports.default = (function (config) {
                         options = config.getItemsOptions();
                         createdFilter = config.createFilter(filter);
                         createdSort = config.createSort(sort);
-                        params = {
-                            after: pagination.after,
-                            before: pagination.before,
-                            filter: JSON.stringify(createdFilter),
-                            limit: pagination.limit,
-                            sort: JSON.stringify(createdSort),
-                        };
+                        paginationParams = pickBy_1.default(function (val) { return !isNil_1.default(val); }, pagination);
+                        stringifiedPaginationParams = mapObjIndexed_1.default(String, paginationParams);
+                        params = __assign({}, stringifiedPaginationParams, { filter: JSON.stringify(createdFilter), sort: JSON.stringify(createdSort) });
                         searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
                             ? options.searchParams
                             : {};
-                        return [4 /*yield*/, connection('', __assign({}, options, { method: 'get', searchParams: __assign({}, params, searchParams) })).json()];
+                        return [4 /*yield*/, connection
+                                .get('', __assign({}, options, { searchParams: __assign({}, params, searchParams) }))
+                                .json()];
                     case 2:
                         _e = _f.sent(), fetchedItems = _e.items, cursor = _e.cursor;
                         items = fetchedItems.map(config.convertDocumentIntoItem);

@@ -9,7 +9,7 @@ beforeEach(() => jest.clearAllMocks());
 
 const testItemCursor = createCursorFromItem(testItem, { id: asc });
 
-const kyMock = jest.fn(() => ({
+const getMock = jest.fn(() => ({
   json: jest.fn(() => ({
     cursor: {
       after: testItemCursor,
@@ -26,10 +26,8 @@ const filter = {
 };
 
 const expectedSearchParams = {
-  after: undefined,
-  before: undefined,
   filter: JSON.stringify(filter),
-  limit: 10,
+  limit: '10',
   sort: JSON.stringify({}),
 };
 
@@ -37,7 +35,7 @@ describe('@getItems', () => {
   it('gets items with no filter', async () => {
     await getItems({
       ...config,
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ get: getMock }) as any,
     })({});
 
     expect(config.getItemsOptions).toBeCalledTimes(1);
@@ -46,8 +44,7 @@ describe('@getItems', () => {
 
     expect(config.createSort).toBeCalledWith({ id: 'asc' });
 
-    expect(kyMock).toBeCalledWith('', {
-      method: 'get',
+    expect(getMock).toBeCalledWith('', {
       searchParams: { ...expectedSearchParams, filter: JSON.stringify({}) },
     });
   });
@@ -59,7 +56,7 @@ describe('@getItems', () => {
       ...config,
       createFilter: createFilterMock,
       getItemsOptions: () => ({ searchParams: { pretty: 'true' } }),
-      ky: () => Promise.resolve(kyMock) as any,
+      ky: () => Promise.resolve({ get: getMock }) as any,
     })({
       filter,
       sort: { booleanProperty: 'desc' },
@@ -69,8 +66,7 @@ describe('@getItems', () => {
 
     expect(config.createSort).toBeCalledWith({ booleanProperty: 'desc' });
 
-    expect(kyMock).toBeCalledWith('', {
-      method: 'get',
+    expect(getMock).toBeCalledWith('', {
       searchParams: { ...expectedSearchParams, pretty: 'true' },
     });
 
@@ -97,5 +93,5 @@ describe('@getItems', () => {
       expect(e).toEqual(error);
     }
   });
-// tslint:disable-next-line:max-file-line-count
+  // tslint:disable-next-line:max-file-line-count
 });

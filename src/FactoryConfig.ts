@@ -31,7 +31,7 @@ export default interface FactoryConfig<I extends Item> {
   readonly paginationKey?: string;
   readonly envelopParamName?: string;
   readonly prettyParamName?: string;
-  readonly createFilter: (filter?: Filter<I>) => any;
+  readonly createFilter?: (filter?: Filter<I>) => any;
   readonly convertDocumentIntoItem?: (document: Document) => I;
   readonly convertItemIntoOptions?: ConvertItemIntoOptions<I>;
   readonly createSort?: (sort: Sort<I>) => any;

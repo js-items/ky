@@ -9,20 +9,21 @@ export default <I extends Item>(
   try {
     const connection = await config.ky();
 
-    const options = config.deleteItemOptions();
+    // TODO: update types for options once this code would be release:
+    // https://github.com/sindresorhus/ky/pull/165/files
+    const options: any = config.deleteItemOptions();
 
     const createdFilter = config.createFilter(filter);
 
     const params = { filter: JSON.stringify(createdFilter) };
 
     const searchParams =
-      !_isNil(options) && !_isNil((options as any).searchParams)
-        ? (options as any).searchParams
+      !_isNil(options) && !_isNil((options).searchParams)
+        ? (options).searchParams
         : {};
 
-    await connection(`/${id}`, {
+    await connection.delete(`/${id}`, {
       ...options,
-      method: 'delete',
       searchParams: { ...searchParams, ...params },
     });
   } catch (error) {

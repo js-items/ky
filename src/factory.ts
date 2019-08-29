@@ -14,7 +14,7 @@ import defaultUpdateItem from './functions/updateItem';
 import defaultConvertItemToOptions from './utils/defaultConvertItemToOptions';
 import { emptyOptions } from './utils/emptyOptions';
 
-export default <I extends Item>({
+const factory = <I extends Item>({
   deleteItem,
   deleteItems,
   getItem,
@@ -63,3 +63,5 @@ export default <I extends Item>({
     updateItem: updateItemFactory(facadeConfig),
   };
 };
+
+export default factory;
