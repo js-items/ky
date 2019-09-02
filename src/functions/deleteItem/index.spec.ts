@@ -21,7 +21,7 @@ describe('@deleteItem', () => {
 
     expect(config.createFilter).toBeCalledWith({});
 
-    expect(deleteMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(deleteMock).toBeCalledWith(`test/${testItem.id}`, {
       searchParams: { filter: JSON.stringify({}) },
     });
   });
@@ -48,7 +48,7 @@ describe('@deleteItem', () => {
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(deleteMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(deleteMock).toBeCalledWith(`${config.itemUrl}/${testItem.id}`, {
       searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
     });
   });

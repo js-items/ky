@@ -19,7 +19,7 @@ describe('@deleteItems', () => {
 
     expect(config.createFilter).toBeCalledWith({});
 
-    expect(deleteMock).toBeCalledWith('', {
+    expect(deleteMock).toBeCalledWith(config.itemUrl, {
       searchParams: { filter: JSON.stringify({}) },
     });
   });
@@ -45,7 +45,7 @@ describe('@deleteItems', () => {
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(deleteMock).toBeCalledWith('', {
+    expect(deleteMock).toBeCalledWith(config.itemUrl, {
       searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
     });
   });

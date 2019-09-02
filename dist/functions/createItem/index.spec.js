@@ -75,7 +75,7 @@ describe('@createItem', function () {
                     expect(createItemOptionsMock).toBeCalledWith(testItem_1.default);
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(postMock).toBeCalledWith('', {
+                    expect(postMock).toBeCalledWith(testConfig_1.config.itemUrl, {
                         json: __assign({}, testItem_1.default),
                     });
                     return [2 /*return*/];
@@ -98,7 +98,7 @@ describe('@createItem', function () {
                         })];
                 case 1:
                     _a.sent();
-                    expect(postMock).toBeCalledWith('', {
+                    expect(postMock).toBeCalledWith(testConfig_1.config.itemUrl, {
                         json: __assign({}, testItem_1.default, { otherProp: 'test' }),
                     });
                     return [2 /*return*/];

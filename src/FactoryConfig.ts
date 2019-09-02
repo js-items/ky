@@ -50,5 +50,7 @@ export default interface FactoryConfig<I extends Item> {
   readonly createItem?: Handler<I, CreateItem<I>>;
   readonly createItemOptions?: ConvertItemIntoOptions<I>;
   readonly defaultPaginationLimit?: number;
+  readonly envelope?: boolean;
   readonly itemName: string;
+  readonly itemUrl: string; // as of: https://github.com/sindresorhus/ky/blob/master/index.js#L223
 }

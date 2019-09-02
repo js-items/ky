@@ -68,7 +68,7 @@ exports.default = (function (config) { return function (_a) {
                     searchParams = !isNil_1.default(options) && !isNil_1.default((options).searchParams)
                         ? (options).searchParams
                         : {};
-                    return [4 /*yield*/, connection.delete("/" + id, __assign({}, options, { searchParams: __assign({}, searchParams, params) }))];
+                    return [4 /*yield*/, connection.delete(config.itemUrl + "/" + id, __assign({}, options, { searchParams: __assign({}, searchParams, params) }))];
                 case 2:
                     _c.sent();
                     return [3 /*break*/, 4];

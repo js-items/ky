@@ -73,7 +73,7 @@ exports.default = (function (config) { return function (_a) {
                         ? options.json
                         : {};
                     return [4 /*yield*/, connection
-                            .patch("/" + id, __assign({}, options, { json: __assign({}, patch, json), searchParams: __assign({}, searchParams, params) }))
+                            .patch(config.itemUrl + "/" + id, __assign({}, options, { json: __assign({}, patch, json), searchParams: __assign({}, searchParams, params) }))
                             .json()];
                 case 2:
                     response = _c.sent();

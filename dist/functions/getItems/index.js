@@ -54,6 +54,7 @@ var SortOrder_1 = require("@js-items/foundation/dist/interfaces/SortOrder");
 var isNil_1 = __importDefault(require("ramda/src/isNil"));
 var mapObjIndexed_1 = __importDefault(require("ramda/src/mapObjIndexed"));
 var pickBy_1 = __importDefault(require("ramda/src/pickBy"));
+var formatItemsResponse_1 = __importDefault(require("../../utils/formatItemsResponse"));
 exports.default = (function (config) {
     var defaultPagination = {
         after: undefined,
@@ -69,14 +70,14 @@ exports.default = (function (config) {
         /* istanbul ignore next */
         pagination = _d === void 0 ? defaultPagination : _d;
         return __awaiter(_this, void 0, void 0, function () {
-            var connection, options, createdFilter, createdSort, paginationParams, stringifiedPaginationParams, params, searchParams, _e, fetchedItems, cursor, items, error_1;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var connection, options, createdFilter, createdSort, paginationParams, stringifiedPaginationParams, params, searchParams, queryParams, response, error_1;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _f.trys.push([0, 3, , 4]);
+                        _e.trys.push([0, 3, , 4]);
                         return [4 /*yield*/, config.ky()];
                     case 1:
-                        connection = _f.sent();
+                        connection = _e.sent();
                         options = config.getItemsOptions();
                         createdFilter = config.createFilter(filter);
                         createdSort = config.createSort(sort);
@@ -86,18 +87,19 @@ exports.default = (function (config) {
                         searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
                             ? options.searchParams
                             : {};
+                        queryParams = __assign({ envelope: config.envelope }, searchParams, params);
                         return [4 /*yield*/, connection
-                                .get('', __assign({}, options, { searchParams: __assign({}, params, searchParams) }))
+                                .get(config.itemUrl, __assign({}, options, { searchParams: queryParams }))
                                 .json()];
                     case 2:
-                        _e = _f.sent(), fetchedItems = _e.items, cursor = _e.cursor;
-                        items = fetchedItems.map(config.convertDocumentIntoItem);
-                        return [2 /*return*/, Promise.resolve({
-                                cursor: cursor,
-                                items: items,
-                            })];
+                        response = _e.sent();
+                        return [2 /*return*/, Promise.resolve(formatItemsResponse_1.default({
+                                config: config,
+                                envelope: queryParams.envelope,
+                                response: response,
+                            }))];
                     case 3:
-                        error_1 = _f.sent();
+                        error_1 = _e.sent();
                         return [2 /*return*/, Promise.reject(error_1)];
                     case 4: return [2 /*return*/];
                 }

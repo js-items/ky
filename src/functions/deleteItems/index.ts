@@ -22,7 +22,7 @@ export default <I extends Item>(
         ? (options).searchParams
         : {};
 
-    await connection.delete('', {
+    await connection.delete(config.itemUrl, {
       ...options,
       searchParams: { ...searchParams, ...params },
     });

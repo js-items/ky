@@ -11,13 +11,14 @@ const testItemCursor = createCursorFromItem(testItem, { id: asc });
 
 const getMock = jest.fn(() => ({
   json: jest.fn(() => ({
-    cursor: {
+    data: [testItem],
+    pagination: {
       after: testItemCursor,
       before: testItemCursor,
       hasAfter: false,
       hasBefore: false,
+      totalCount: 10,
     },
-    items: [testItem],
   })),
 }));
 
@@ -35,6 +36,7 @@ describe('@getItems', () => {
   it('gets items with no filter', async () => {
     await getItems({
       ...config,
+      envelope: false,
       ky: () => Promise.resolve({ get: getMock }) as any,
     })({});
 
@@ -44,8 +46,12 @@ describe('@getItems', () => {
 
     expect(config.createSort).toBeCalledWith({ id: 'asc' });
 
-    expect(getMock).toBeCalledWith('', {
-      searchParams: { ...expectedSearchParams, filter: JSON.stringify({}) },
+    expect(getMock).toBeCalledWith(config.itemUrl, {
+      searchParams: {
+        ...expectedSearchParams,
+        envelope: false,
+        filter: JSON.stringify({}),
+      },
     });
   });
 
@@ -55,6 +61,7 @@ describe('@getItems', () => {
     const { cursor, items } = await getItems({
       ...config,
       createFilter: createFilterMock,
+      envelope: false,
       getItemsOptions: () => ({ searchParams: { pretty: 'true' } }),
       ky: () => Promise.resolve({ get: getMock }) as any,
     })({
@@ -66,8 +73,12 @@ describe('@getItems', () => {
 
     expect(config.createSort).toBeCalledWith({ booleanProperty: 'desc' });
 
-    expect(getMock).toBeCalledWith('', {
-      searchParams: { ...expectedSearchParams, pretty: 'true' },
+    expect(getMock).toBeCalledWith(config.itemUrl, {
+      searchParams: {
+        ...expectedSearchParams,
+        envelope: false,
+        pretty: 'true',
+      },
     });
 
     expect(items).toEqual([testItem]);
@@ -76,6 +87,7 @@ describe('@getItems', () => {
       before: testItemCursor,
       hasAfter: false,
       hasBefore: false,
+      totalCount: 10,
     });
   });
 

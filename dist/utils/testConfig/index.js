@@ -17,10 +17,12 @@ exports.config = {
     defaultPaginationLimit: 10,
     deleteItemOptions: exports.defaultDocumentConverter,
     deleteItemsOptions: exports.defaultDocumentConverter,
+    envelope: true,
     getItemOptions: exports.defaultDocumentConverter,
     getItemsOptions: exports.defaultDocumentConverter,
     itemName: 'TestItem',
-    ky: jest.fn(function () { return Promise.resolve({}); }
+    itemUrl: 'test',
+    ky: jest.fn(function () { /* istanbul ignore next */ return Promise.resolve({}); }
     // tslint:disable-next-line:no-any
     ),
     replaceItemOptions: exports.jsonOptions,

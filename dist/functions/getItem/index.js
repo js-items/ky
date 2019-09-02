@@ -54,7 +54,7 @@ var isNil_1 = __importDefault(require("ramda/src/isNil"));
 exports.default = (function (config) { return function (_a) {
     var id = _a.id, _b = _a.filter, filter = _b === void 0 ? {} : _b;
     return __awaiter(_this, void 0, void 0, function () {
-        var connection, createFilter, options, params, searchParams, response, error_1;
+        var connection, createFilter, options, params, searchParams, queryParams, response, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -68,8 +68,9 @@ exports.default = (function (config) { return function (_a) {
                     searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
                         ? options.searchParams
                         : {};
+                    queryParams = __assign({}, searchParams, params);
                     return [4 /*yield*/, connection
-                            .get("/" + id, __assign({}, options, { searchParams: __assign({}, searchParams, params) }))
+                            .get(config.itemUrl + "/" + id, __assign({}, options, { searchParams: queryParams }))
                             .json()];
                 case 2:
                     response = _c.sent();
