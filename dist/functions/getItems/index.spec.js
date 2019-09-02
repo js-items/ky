@@ -89,7 +89,7 @@ describe('@getItems', function () {
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
                     expect(testConfig_1.config.createSort).toBeCalledWith({ id: 'asc' });
                     expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl, {
-                        searchParams: __assign({}, expectedSearchParams, { filter: JSON.stringify({}) }),
+                        searchParams: __assign({}, expectedSearchParams, { envelope: false, filter: JSON.stringify({}) }),
                     });
                     return [2 /*return*/];
             }
@@ -110,7 +110,7 @@ describe('@getItems', function () {
                     expect(createFilterMock).toBeCalledWith(filter);
                     expect(testConfig_1.config.createSort).toBeCalledWith({ booleanProperty: 'desc' });
                     expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl, {
-                        searchParams: __assign({}, expectedSearchParams, { pretty: 'true' }),
+                        searchParams: __assign({}, expectedSearchParams, { envelope: false, pretty: 'true' }),
                     });
                     expect(items).toEqual([testItem_1.default]);
                     expect(cursor).toEqual({
