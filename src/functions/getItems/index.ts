@@ -46,13 +46,8 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
         Partial<Pagination> | Pagination
       >((val: keyof Pagination) => !_isNil(val), pagination);
 
-      const stringifiedPaginationParams = _mapObjIndexed(
-        String,
-        paginationParams
-      );
-
       const params = {
-        ...stringifiedPaginationParams,
+        ...paginationParams,
         filter: JSON.stringify(createdFilter),
         sort: JSON.stringify(createdSort),
       };
@@ -62,11 +57,11 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
           ? options.searchParams
           : {};
 
-      const queryParams = {
+      const queryParams = _mapObjIndexed(String, {
         envelope: config.envelope,
         ...searchParams,
         ...params,
-      };
+      });
 
       const response = await connection
         .get(config.itemUrl, {
@@ -78,7 +73,7 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
       return Promise.resolve(
         formatItemsResponse({
           config,
-          envelope: queryParams.envelope,
+          envelope: queryParams.envelope === 'true',
           response,
         })
       );

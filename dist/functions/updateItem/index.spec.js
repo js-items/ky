@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -48,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-any
 var foundation_1 = require("@js-items/foundation");
@@ -67,14 +67,14 @@ var updateMock = jest.fn(function () { return ({
     json: function () { return Promise.resolve({ item: testItem_1.default }); },
 }); });
 describe('@updateItem', function () {
-    it('updates item without filter', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('updates item without filter', function () { return __awaiter(void 0, void 0, void 0, function () {
         var createFilterMock, updateItemOptionsMock, item;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     createFilterMock = jest.fn(function () { return ({}); });
                     updateItemOptionsMock = jest.fn(function () { return ({}); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(defaultOptions)];
+                    return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(defaultOptions)];
                 case 1:
                     item = (_a.sent()).item;
                     expect(updateItemOptionsMock).toBeCalledWith(testItem_1.default);
@@ -89,7 +89,7 @@ describe('@updateItem', function () {
             }
         });
     }); });
-    it('updates item with custom filter and search params', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('updates item with custom filter and search params', function () { return __awaiter(void 0, void 0, void 0, function () {
         var createFilterMock, updateItemOptionsMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -98,7 +98,7 @@ describe('@updateItem', function () {
                     updateItemOptionsMock = jest.fn(function () { return ({
                         searchParams: { pretty: 'false' },
                     }); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(__assign({}, defaultOptions, { filter: filter }))];
+                    return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { createFilter: createFilterMock, ky: function () { return Promise.resolve({ patch: updateMock }); }, updateItemOptions: updateItemOptionsMock }))(__assign(__assign({}, defaultOptions), { filter: filter }))];
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
@@ -110,13 +110,13 @@ describe('@updateItem', function () {
             }
         });
     }); });
-    it('does not update item', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('does not update item', function () { return __awaiter(void 0, void 0, void 0, function () {
         var error, facadeConfig, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ItemNotFoundError('TestItem');
-                    facadeConfig = __assign({}, testConfig_1.config, { ky: jest.fn(function () { return Promise.reject(error); }), updateItemOptions: testConfig_1.jsonOptions });
+                    facadeConfig = __assign(__assign({}, testConfig_1.config), { ky: jest.fn(function () { return Promise.reject(error); }), updateItemOptions: testConfig_1.jsonOptions });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -48,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var SortOrder_1 = require("@js-items/foundation/dist/interfaces/SortOrder");
 var isNil_1 = __importDefault(require("ramda/src/isNil"));
@@ -69,8 +69,8 @@ exports.default = (function (config) {
         _d = _a.pagination, 
         /* istanbul ignore next */
         pagination = _d === void 0 ? defaultPagination : _d;
-        return __awaiter(_this, void 0, void 0, function () {
-            var connection, options, createdFilter, createdSort, paginationParams, stringifiedPaginationParams, params, searchParams, queryParams, response, error_1;
+        return __awaiter(void 0, void 0, void 0, function () {
+            var connection, options, createdFilter, createdSort, paginationParams, params, searchParams, queryParams, response, error_1;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -82,20 +82,19 @@ exports.default = (function (config) {
                         createdFilter = config.createFilter(filter);
                         createdSort = config.createSort(sort);
                         paginationParams = pickBy_1.default(function (val) { return !isNil_1.default(val); }, pagination);
-                        stringifiedPaginationParams = mapObjIndexed_1.default(String, paginationParams);
-                        params = __assign({}, stringifiedPaginationParams, { filter: JSON.stringify(createdFilter), sort: JSON.stringify(createdSort) });
+                        params = __assign(__assign({}, paginationParams), { filter: JSON.stringify(createdFilter), sort: JSON.stringify(createdSort) });
                         searchParams = !isNil_1.default(options) && !isNil_1.default(options.searchParams)
                             ? options.searchParams
                             : {};
-                        queryParams = __assign({ envelope: config.envelope }, searchParams, params);
+                        queryParams = mapObjIndexed_1.default(String, __assign(__assign({ envelope: config.envelope }, searchParams), params));
                         return [4 /*yield*/, connection
-                                .get(config.itemUrl, __assign({}, options, { searchParams: queryParams }))
+                                .get(config.itemUrl, __assign(__assign({}, options), { searchParams: queryParams }))
                                 .json()];
                     case 2:
                         response = _e.sent();
                         return [2 /*return*/, Promise.resolve(formatItemsResponse_1.default({
                                 config: config,
-                                envelope: queryParams.envelope,
+                                envelope: queryParams.envelope === 'true',
                                 response: response,
                             }))];
                     case 3:

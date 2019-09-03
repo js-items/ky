@@ -15,8 +15,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
         t[p] = s[p];
     if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
     return t;
 };
 var __importDefault = (this && this.__importDefault) || function (mod) {
@@ -37,7 +39,7 @@ var factory = function (_a) {
     var deleteItem = _a.deleteItem, deleteItems = _a.deleteItems, getItem = _a.getItem, getItems = _a.getItems, updateItem = _a.updateItem, replaceItem = _a.replaceItem, createItem = _a.createItem, convertItemIntoOptions = _a.convertItemIntoOptions, envelope = _a.envelope, config = __rest(_a, ["deleteItem", "deleteItems", "getItem", "getItems", "updateItem", "replaceItem", "createItem", "convertItemIntoOptions", "envelope"]);
     var itemIntoOptions = defaultTo_1.default(defaultConvertItemToOptions_1.default)(convertItemIntoOptions);
     var envelopeOptions = defaultTo_1.default(false)(envelope);
-    var facadeConfig = __assign({ convertDocumentIntoItem: function (document) { return document; }, convertItemIntoOptions: itemIntoOptions, createFilter: emptyOptions_1.emptyOptions, createItemOptions: defaultConvertItemToOptions_1.default, createSort: function (sort) { return sort; }, defaultPaginationLimit: 10, deleteItemOptions: emptyOptions_1.emptyOptions, deleteItemsOptions: itemIntoOptions, envelope: envelopeOptions, getItemOptions: itemIntoOptions, getItemsOptions: itemIntoOptions, replaceItemOptions: itemIntoOptions, updateItemOptions: itemIntoOptions }, config);
+    var facadeConfig = __assign({ convertDocumentIntoItem: function (document) { return document; }, convertItemIntoOptions: itemIntoOptions, createFilter: emptyOptions_1.emptyOptions, createItemOptions: defaultConvertItemToOptions_1.default, createSort: function (sort) { return sort; }, defaultPaginationLimit: 10, deleteItemOptions: emptyOptions_1.emptyOptions, deleteItemsOptions: emptyOptions_1.emptyOptions, envelope: envelopeOptions, getItemOptions: emptyOptions_1.emptyOptions, getItemsOptions: emptyOptions_1.emptyOptions, replaceItemOptions: defaultConvertItemToOptions_1.default, updateItemOptions: defaultConvertItemToOptions_1.default }, config);
     var createItemFactory = defaultTo_1.default(createItem_1.default)(createItem);
     var deleteItemFactory = defaultTo_1.default(deleteItem_1.default)(deleteItem);
     var getItemFactory = defaultTo_1.default(getItem_1.default)(getItem);

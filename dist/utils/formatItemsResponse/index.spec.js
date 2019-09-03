@@ -62,7 +62,7 @@ describe('@formatItemsResponse', function () {
             response: response,
         });
         var expectedResult = {
-            cursor: __assign({}, pagination, { before: undefined, after: undefined }),
+            cursor: __assign(__assign({}, pagination), { before: undefined, after: undefined, totalCount: 0 }),
             items: [],
         };
         expect(result).toEqual(expectedResult);

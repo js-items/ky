@@ -21,7 +21,7 @@ var formatItemsResponse = function (_a) {
         ? response.body
         : response, data = _b.data, pagination = _b.pagination;
     return {
-        cursor: __assign({}, pagination, { after: defaultTo_1.default(undefined)(pagination.after), before: defaultTo_1.default(undefined)(pagination.before) }),
+        cursor: __assign(__assign({}, pagination), { after: defaultTo_1.default(undefined)(pagination.after), before: defaultTo_1.default(undefined)(pagination.before) }),
         items: data.map(convertDocumentIntoItem),
     };
 };
