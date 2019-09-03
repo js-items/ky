@@ -29,7 +29,7 @@ export default <I extends Item>(
         : {};
 
     const response = await connection
-      .patch(`/${id}`, {
+      .patch(`${config.itemUrl}/${id}`, {
         ...options,
         json: {
           ...patch,

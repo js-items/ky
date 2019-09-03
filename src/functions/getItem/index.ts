@@ -24,10 +24,12 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItem<I> => async ({
         ? options.searchParams
         : {};
 
+    const queryParams = { ...searchParams, ...params };
+
     const response = await connection
-      .get(`/${id}`, {
+      .get(`${config.itemUrl}/${id}`, {
         ...options,
-        searchParams: { ...searchParams, ...params },
+        searchParams: queryParams,
       })
       .json<Result<I>>();
 

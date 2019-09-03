@@ -65,7 +65,7 @@ exports.default = (function (config) { return function (_a) {
                     options = config.createItemOptions(__assign({}, item, { id: id }));
                     json = !isNil_1.default(options) && !isNil_1.default(options.json) ? (options).json : {};
                     return [4 /*yield*/, connection
-                            .post('', __assign({}, options, { json: __assign({}, item, json) }))
+                            .post(config.itemUrl, __assign({}, options, { json: __assign({}, item, json) }))
                             .json()];
                 case 2:
                     response = _b.sent();

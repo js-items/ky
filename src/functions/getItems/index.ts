@@ -1,11 +1,18 @@
 // tslint:disable:no-any
-import { GetItems, Item, Pagination, Sort } from '@js-items/foundation';
-import { Result } from '@js-items/foundation/dist/functions/GetItems';
+import {
+  GetItems,
+  Item,
+  PaginatedResponse,
+  Pagination,
+  Sort,
+} from '@js-items/foundation';
 import { asc } from '@js-items/foundation/dist/interfaces/SortOrder';
+import EnvelopedResponse from '@js-items/foundation/src/interfaces/EnvelopedResponse';
 import _isNil from 'ramda/src/isNil';
 import _mapObjIndexed from 'ramda/src/mapObjIndexed';
 import _pickBy from 'ramda/src/pickBy';
 import FacadeConfig from '../../FacadeConfig';
+import formatItemsResponse from '../../utils/formatItemsResponse';
 
 export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
   const defaultPagination: Pagination = {
@@ -55,19 +62,26 @@ export default <I extends Item>(config: FacadeConfig<I>): GetItems<I> => {
           ? options.searchParams
           : {};
 
-      const { items: fetchedItems, cursor } = await connection
-        .get('', {
+      const queryParams = {
+        envelope: config.envelope,
+        ...searchParams,
+        ...params,
+      };
+
+      const response = await connection
+        .get(config.itemUrl, {
           ...options,
-          searchParams: { ...params, ...searchParams },
+          searchParams: queryParams,
         })
-        .json<Result<I>>();
+        .json<EnvelopedResponse<PaginatedResponse<I>> | PaginatedResponse<I>>();
 
-      const items = fetchedItems.map(config.convertDocumentIntoItem);
-
-      return Promise.resolve({
-        cursor,
-        items,
-      });
+      return Promise.resolve(
+        formatItemsResponse({
+          config,
+          envelope: queryParams.envelope,
+          response,
+        })
+      );
     } catch (error) {
       return Promise.reject(error);
     }

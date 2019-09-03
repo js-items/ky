@@ -18,11 +18,13 @@ export const config: FacadeConfig<TestItem> = {
   defaultPaginationLimit: 10,
   deleteItemOptions: defaultDocumentConverter,
   deleteItemsOptions: defaultDocumentConverter,
+  envelope: true,
   getItemOptions: defaultDocumentConverter,
   getItemsOptions: defaultDocumentConverter,
   itemName: 'TestItem',
+  itemUrl: 'test',
   ky: jest.fn(
-    () => Promise.resolve({})
+    () => /* istanbul ignore next */ Promise.resolve({})
     // tslint:disable-next-line:no-any
   ) as any,
   replaceItemOptions: jsonOptions,

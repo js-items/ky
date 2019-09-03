@@ -81,7 +81,7 @@ describe('@replaceItem', function () {
                     expect(createFilterMock).toBeCalledWith({});
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(replaceMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(replaceMock).toBeCalledWith(testConfig_1.config.itemUrl + "/" + testItem_1.default.id, {
                         json: __assign({}, testItem_1.default),
                         searchParams: { filter: JSON.stringify({}) },
                     });
@@ -102,7 +102,7 @@ describe('@replaceItem', function () {
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
-                    expect(replaceMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(replaceMock).toBeCalledWith(testConfig_1.config.itemUrl + "/" + testItem_1.default.id, {
                         json: __assign({}, testItem_1.default),
                         searchParams: { filter: JSON.stringify(filter), pretty: 'false' },
                     });

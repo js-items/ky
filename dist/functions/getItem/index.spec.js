@@ -76,7 +76,7 @@ describe('@getItem', function () {
                     expect(getItemOptionsMock).toBeCalledTimes(1);
                     expect(testConfig_1.config.convertDocumentIntoItem).toBeCalledWith(testItem_1.default);
                     expect(item).toEqual(testItem_1.default);
-                    expect(getMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl + "/" + testItem_1.default.id, {
                         searchParams: { filter: JSON.stringify({}) },
                     });
                     return [2 /*return*/];
@@ -105,7 +105,7 @@ describe('@getItem', function () {
                 case 1:
                     _a.sent();
                     expect(createFilterMock).toBeCalledWith(filter);
-                    expect(getMock).toBeCalledWith("/" + testItem_1.default.id, {
+                    expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl + "/" + testItem_1.default.id, {
                         searchParams: { pretty: 'true', filter: JSON.stringify(filter) },
                     });
                     return [2 /*return*/];

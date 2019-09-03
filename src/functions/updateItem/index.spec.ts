@@ -39,7 +39,7 @@ describe('@updateItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(updateMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(updateMock).toBeCalledWith(`${config.itemUrl}/${testItem.id}`, {
       json: { ...testItem },
       searchParams: { filter: JSON.stringify({}) },
     });
@@ -61,7 +61,7 @@ describe('@updateItem', () => {
 
     expect(createFilterMock).toBeCalledWith(filter);
 
-    expect(updateMock).toBeCalledWith(`/${testItem.id}`, {
+    expect(updateMock).toBeCalledWith(`${config.itemUrl}/${testItem.id}`, {
       json: { ...testItem },
       searchParams: { filter: JSON.stringify(filter), pretty: 'false' },
     });

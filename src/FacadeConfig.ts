@@ -19,5 +19,7 @@ export default interface FacadeConfig<I extends Item> {
   readonly getItemsOptions: ConvertItemIntoOptions<I>;
   readonly createItemOptions: ConvertItemIntoOptions<I>;
   readonly defaultPaginationLimit: number;
+  readonly envelope: boolean;
   readonly itemName: string;
+  readonly itemUrl: string; // as of: https://github.com/sindresorhus/ky/blob/master/index.js#L223
 }

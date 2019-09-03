@@ -23,11 +23,14 @@ const factory = <I extends Item>({
   replaceItem,
   createItem,
   convertItemIntoOptions,
+  envelope,
   ...config
 }: FactoryConfig<I>): Facade<I> => {
   const itemIntoOptions = _defaultTo(defaultConvertItemToOptions)(
     convertItemIntoOptions
   );
+
+  const envelopeOptions = _defaultTo(false)(envelope);
 
   const facadeConfig: FacadeConfig<I> = {
     convertDocumentIntoItem: (document: any) => document,
@@ -38,6 +41,7 @@ const factory = <I extends Item>({
     defaultPaginationLimit: 10,
     deleteItemOptions: emptyOptions,
     deleteItemsOptions: itemIntoOptions,
+    envelope: envelopeOptions,
     getItemOptions: itemIntoOptions,
     getItemsOptions: itemIntoOptions,
     replaceItemOptions: itemIntoOptions,

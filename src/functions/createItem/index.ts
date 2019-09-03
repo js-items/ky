@@ -18,7 +18,7 @@ export default <I extends Item>(
       !_isNil(options) && !_isNil(options.json) ? (options).json : {};
 
     const response = await connection
-      .post('', {
+      .post(config.itemUrl, {
         ...options,
         json: {
           ...item,

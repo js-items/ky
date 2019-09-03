@@ -29,7 +29,7 @@ describe('@createItem', () => {
 
     expect(item).toEqual(testItem);
 
-    expect(postMock).toBeCalledWith('', {
+    expect(postMock).toBeCalledWith(config.itemUrl, {
       json: { ...testItem },
     });
   });
@@ -51,7 +51,7 @@ describe('@createItem', () => {
       item: testItem,
     });
 
-    expect(postMock).toBeCalledWith('', {
+    expect(postMock).toBeCalledWith(config.itemUrl, {
       json: { ...testItem, otherProp: 'test' },
     });
   });
