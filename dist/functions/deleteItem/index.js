@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -48,12 +49,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var isNil_1 = __importDefault(require("ramda/src/isNil"));
 exports.default = (function (config) { return function (_a) {
     var _b = _a.filter, filter = _b === void 0 ? {} : _b, id = _a.id;
-    return __awaiter(_this, void 0, void 0, function () {
+    return __awaiter(void 0, void 0, void 0, function () {
         var connection, options, createdFilter, params, searchParams, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -68,7 +68,7 @@ exports.default = (function (config) { return function (_a) {
                     searchParams = !isNil_1.default(options) && !isNil_1.default((options).searchParams)
                         ? (options).searchParams
                         : {};
-                    return [4 /*yield*/, connection.delete(config.itemUrl + "/" + id, __assign({}, options, { searchParams: __assign({}, searchParams, params) }))];
+                    return [4 /*yield*/, connection.delete(config.itemUrl + "/" + id, __assign(__assign({}, options), { searchParams: __assign(__assign({}, searchParams), params) }))];
                 case 2:
                     _c.sent();
                     return [3 /*break*/, 4];

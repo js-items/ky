@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -48,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-any
 var foundation_1 = require("@js-items/foundation");
@@ -79,29 +79,29 @@ var expectedSearchParams = {
     sort: JSON.stringify({}),
 };
 describe('@getItems', function () {
-    it('gets items with no filter', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('gets items with no filter', function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { envelope: false, ky: function () { return Promise.resolve({ get: getMock }); } }))({})];
+                case 0: return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { envelope: false, ky: function () { return Promise.resolve({ get: getMock }); } }))({})];
                 case 1:
                     _a.sent();
                     expect(testConfig_1.config.getItemsOptions).toBeCalledTimes(1);
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
                     expect(testConfig_1.config.createSort).toBeCalledWith({ id: 'asc' });
                     expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl, {
-                        searchParams: __assign({}, expectedSearchParams, { envelope: false, filter: JSON.stringify({}) }),
+                        searchParams: __assign(__assign({}, expectedSearchParams), { envelope: false, filter: JSON.stringify({}) }),
                     });
                     return [2 /*return*/];
             }
         });
     }); });
-    it('gets items with filter and custom search params', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('gets items with filter and custom search params', function () { return __awaiter(void 0, void 0, void 0, function () {
         var createFilterMock, _a, cursor, items;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     createFilterMock = jest.fn(function () { return filter; });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, envelope: false, getItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ get: getMock }); } }))({
+                    return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { createFilter: createFilterMock, envelope: false, getItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ get: getMock }); } }))({
                             filter: filter,
                             sort: { booleanProperty: 'desc' },
                         })];
@@ -110,7 +110,7 @@ describe('@getItems', function () {
                     expect(createFilterMock).toBeCalledWith(filter);
                     expect(testConfig_1.config.createSort).toBeCalledWith({ booleanProperty: 'desc' });
                     expect(getMock).toBeCalledWith(testConfig_1.config.itemUrl, {
-                        searchParams: __assign({}, expectedSearchParams, { envelope: false, pretty: 'true' }),
+                        searchParams: __assign(__assign({}, expectedSearchParams), { envelope: false, pretty: 'true' }),
                     });
                     expect(items).toEqual([testItem_1.default]);
                     expect(cursor).toEqual({
@@ -124,13 +124,13 @@ describe('@getItems', function () {
             }
         });
     }); });
-    it('does not get items', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('does not get items', function () { return __awaiter(void 0, void 0, void 0, function () {
         var error, facadeConfig, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ItemNotFoundError('TestItem');
-                    facadeConfig = __assign({}, testConfig_1.config, { ky: jest.fn(function () { return Promise.reject(error); }) });
+                    facadeConfig = __assign(__assign({}, testConfig_1.config), { ky: jest.fn(function () { return Promise.reject(error); }) });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

@@ -49,7 +49,7 @@ describe('@getItems', () => {
     expect(getMock).toBeCalledWith(config.itemUrl, {
       searchParams: {
         ...expectedSearchParams,
-        envelope: false,
+        envelope: 'false',
         filter: JSON.stringify({}),
       },
     });
@@ -76,7 +76,7 @@ describe('@getItems', () => {
     expect(getMock).toBeCalledWith(config.itemUrl, {
       searchParams: {
         ...expectedSearchParams,
-        envelope: false,
+        envelope: 'false',
         pretty: 'true',
       },
     });

@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -48,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-any
 var foundation_1 = require("@js-items/foundation");
@@ -57,7 +57,7 @@ var testConfig_1 = require("../../utils/testConfig");
 var index_1 = __importDefault(require("./index"));
 beforeEach(function () { return jest.clearAllMocks(); });
 describe('@deleteItems', function () {
-    it('deletes items with no filter', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('deletes items with no filter', function () { return __awaiter(void 0, void 0, void 0, function () {
         var deleteMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -65,7 +65,7 @@ describe('@deleteItems', function () {
                     deleteMock = jest.fn(function () { return ({
                         json: function () { return Promise.resolve({ item: testItem_1.default }); },
                     }); });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({})];
+                    return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({})];
                 case 1:
                     _a.sent();
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
@@ -76,7 +76,7 @@ describe('@deleteItems', function () {
             }
         });
     }); });
-    it('deletes items with filter and custom search params', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('deletes items with filter and custom search params', function () { return __awaiter(void 0, void 0, void 0, function () {
         var deleteMock, filter, createFilterMock;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -88,7 +88,7 @@ describe('@deleteItems', function () {
                         id: { $eq: testItem_1.default.id },
                     };
                     createFilterMock = jest.fn(function () { return filter; });
-                    return [4 /*yield*/, index_1.default(__assign({}, testConfig_1.config, { createFilter: createFilterMock, deleteItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({
+                    return [4 /*yield*/, index_1.default(__assign(__assign({}, testConfig_1.config), { createFilter: createFilterMock, deleteItemsOptions: function () { return ({ searchParams: { pretty: 'true' } }); }, ky: function () { return Promise.resolve({ delete: deleteMock }); } }))({
                             filter: filter,
                         })];
                 case 1:
@@ -101,13 +101,13 @@ describe('@deleteItems', function () {
             }
         });
     }); });
-    it('does not delete items', function () { return __awaiter(_this, void 0, void 0, function () {
+    it('does not delete items', function () { return __awaiter(void 0, void 0, void 0, function () {
         var error, facadeConfig, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     error = new foundation_1.ItemNotFoundError('TestItem', testItem_1.default.id);
-                    facadeConfig = __assign({}, testConfig_1.config, { ky: jest.fn(function () { return Promise.reject(error); }) });
+                    facadeConfig = __assign(__assign({}, testConfig_1.config), { ky: jest.fn(function () { return Promise.reject(error); }) });
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

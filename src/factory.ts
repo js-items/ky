@@ -40,12 +40,12 @@ const factory = <I extends Item>({
     createSort: (sort: any) => sort,
     defaultPaginationLimit: 10,
     deleteItemOptions: emptyOptions,
-    deleteItemsOptions: itemIntoOptions,
+    deleteItemsOptions: emptyOptions,
     envelope: envelopeOptions,
-    getItemOptions: itemIntoOptions,
-    getItemsOptions: itemIntoOptions,
-    replaceItemOptions: itemIntoOptions,
-    updateItemOptions: itemIntoOptions,
+    getItemOptions: emptyOptions,
+    getItemsOptions: emptyOptions,
+    replaceItemOptions: defaultConvertItemToOptions,
+    updateItemOptions: defaultConvertItemToOptions,
     ...config,
   };
 
