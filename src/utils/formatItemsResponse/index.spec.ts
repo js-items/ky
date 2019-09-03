@@ -32,8 +32,36 @@ describe('@formatItemsResponse', () => {
     });
 
     const expectedResult = {
-      cursor: pagination,
+      cursor: { ...pagination },
       items: [testItem],
+    };
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('gets response when envelope is set to false and there is not data', () => {
+    const paginationData = {
+      after: null,
+      before: null,
+      hasAfter: false,
+      hasBefore: false,
+      totalCount: 0,
+    };
+
+    const response: PaginatedResponse<TestItem> = {
+      data: [],
+      pagination: paginationData,
+    };
+
+    const result = formatItemResponse<TestItem>({
+      config,
+      envelope: false,
+      response,
+    });
+
+    const expectedResult = {
+      cursor: { ...pagination, before: undefined, after: undefined, totalCount: 0 },
+      items: [],
     };
 
     expect(result).toEqual(expectedResult);

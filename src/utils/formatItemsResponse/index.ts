@@ -6,6 +6,7 @@ import {
   PaginatedResponse,
 } from '@js-items/foundation';
 import { Result } from '@js-items/foundation/dist/functions/GetItems';
+import _defaultTo from 'ramda/src/defaultTo';
 import FacadeConfig from '../../FacadeConfig';
 
 export interface Options<I extends Item> {
@@ -26,7 +27,11 @@ const formatItemsResponse = <I extends Item>({
     : (response as PaginatedResponse<I>);
 
   return {
-    cursor: pagination,
+    cursor: {
+      ...pagination,
+      after: _defaultTo(undefined)(pagination.after),
+      before: _defaultTo(undefined)(pagination.before),
+    },
     items: data.map(convertDocumentIntoItem),
   };
 };

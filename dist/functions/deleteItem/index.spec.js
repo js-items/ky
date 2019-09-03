@@ -71,7 +71,7 @@ describe('@deleteItem', function () {
                 case 1:
                     _a.sent();
                     expect(testConfig_1.config.createFilter).toBeCalledWith({});
-                    expect(deleteMock).toBeCalledWith("test/" + testItem_1.default.id, {
+                    expect(deleteMock).toBeCalledWith(testConfig_1.config.itemUrl + "/" + testItem_1.default.id, {
                         searchParams: { filter: JSON.stringify({}) },
                     });
                     return [2 /*return*/];
