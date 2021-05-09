@@ -34,7 +34,7 @@
     "@kube-js/tscommons": "1.0.5",
     "@types/jest": "24.0.18",
     "@types/ramda": "0.26.26",
-    "jest": "24.9.0",
+    "jest": "26.0.0",
     "rimraf": "3.0.0",
     "ts-jest": "24.1.0",
     "tslint": "5.20.0",
